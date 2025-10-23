@@ -1,0 +1,61 @@
+So in this type of problem we will give Array & weights and the capacity 
+So in this type of questions we will see common pattern like capacity and array 
+"I have limited capacity (like a bag), and a list of items with weights and values.
+Which items should I pick to maximize total value without exceeding capacity?"
+______Recursive Approach________
+1)️.The Real DP Pattern
+
+This is the “choice-based” DP — at every step, you either:
+Take the item → add its value + reduce capacity
+Don’t take the item → move to next
+Then, take the max of both.
+Function ->
+// Recursive implementation of 0/1 Knapsack
+int knap(int i, int W, int wt[], int val[]) {
+    // Base condition
+    if (i == 0 || W == 0)
+        return 0;
+
+    // If current item's weight is less than or equal to capacity
+    if (wt[i - 1] <= W) {
+        return max(
+            val[i - 1] + knap(i - 1, W - wt[i - 1], wt, val), // take item
+            knap(i - 1, W, wt, val)                            // skip item
+        );
+    } 
+    // If item is heavier than remaining capacity
+    else {
+        return knap(i - 1, W, wt, val); // skip item
+    }
+}
+
+2).Memoization+Recursive Approach
+int t[1005][1005];
+int knap(int i, int W, int wt[], int val[]){
+    //Base condition
+    if(i==0 || W==0)
+    return 0;
+    if(t[i][j]!-1) return t[i][j];
+    if(wt[i-1]<=W){
+    return t[i][j]=max(val[i-1]+knap(i-1,W,wt-val[i-1],val),knap(i-1,W,wt,val));}
+    else 
+    return t[i][j]=knap(i-1,W,wt,val);}
+  int knapsack(int wt[],val[],int W){
+  memset(t,-1,sizeof(t));
+  return knap(0,W,wt,val);}
+  
+3).int knapSack(int W, int wt[], int val[], int n) { //Bottom -Up
+    for(int i=0;i<n+1;i++){
+    for(int j=0;j<W+1;j++){
+    if(i==0 || j==0) t[i][j]=0;}}
+    for(int i=1;i<n+1;i++){
+    for(int j=1;j<W+1;j++){
+    if(j<=wt[i-1]){
+    t[i][j]=max(val[i-1]+t[i-1][j-wt[i-1]), t[i-1][j]);}
+    else
+    t[i][j]=t[i-1][j];
+    }}
+    return t[n][W];}
+    
+
+

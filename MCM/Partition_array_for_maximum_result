@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int t[505][505];
+    long long solve(vector<int>& arr, int i, int k){
+       int n=arr.size();
+       if(t[i][k]!=-1)
+       return t[i][k];
+        if(i==n) return 0;
+          long long  currmaxx=0;
+          
+          long long  maxi=INT_MIN;   
+        for(int len=1;len<=k && i+len<=n;len++){
+           currmaxx=max(currmaxx,(long long)arr[i+len-1]);
+
+            long long temp=currmaxx*len+solve(arr,i+len,k);
+            maxi=max(maxi,temp);
+        }
+        return  t[i][k]=maxi;
+    }
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        memset(t,-1,sizeof(t));
+        return solve(arr,0,k);
+    }
+};

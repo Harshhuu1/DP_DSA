@@ -1,0 +1,45 @@
+ prev2=0;
+     prev=1;
+    curr_value=prev+prev2;
+     prev=curr_value;
+     prev2=prev;
+    return prev;
+// first code use only recursion
+int fib(n){
+    if(n<=1) return n;
+else
+return fib(n-1)+fib(n-2);
+}
+int t[32];
+int solve(int n){
+    if(n<=1) return n;
+    if(t[n]!=-1) return t[n] /*means the values 
+already stores so return it.*/
+return t[n]=solve(n-1)+solve(n-2);
+}
+int fib(int n){
+    t[0]=0;
+    t[1]=1;
+    for(int i=2;i<=n;i++){
+        t[i]=t[i-1]+t[i-2];//Here we took these from the recursion code 
+    }
+    return t[n];
+}
+Code
+class Solution {
+public:
+   int fib(int n) {
+        if(n==0) return 0;
+        if(n==1) return 1;
+        int prev2=0;
+        int prev=1;
+       
+        for(int i=2;i<=n;i++){
+            int curri=prev+prev2;
+            prev2=prev;
+            prev=curri;
+        }
+        return prev;
+    
+    }
+};

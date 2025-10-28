@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int t[305][305];
+    int solve(int i , int j,vector<int>& nums){
+        if(i>j) return 0;
+        if(t[i][j]!=-1) return t[i][j];
+        int mn=INT_MIN;
+        for(int k=i;k<=j;k++){
+            
+            int temp=solve(i,k-1,nums)+solve(k+1,j,nums)+nums[i-1]*nums[k]*nums[j+1];
+            mn=max(mn,temp);
+
+
+        }
+        return t[i][j]= mn;
+    }
+    int maxCoins(vector<int>& nums) {
+         memset(t,-1,sizeof(t));
+         int n = nums.size();
+        nums.insert(nums.begin(), 1);  // add 1 in front
+        nums.push_back(1);             // add 1 at end
+        return solve(1, n, nums);
+    }
+};

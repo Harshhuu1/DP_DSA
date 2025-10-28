@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int t[1005][1005];
+    int solve(int i, int j,int n, vector<int>& cuts){
+        if(i>j) return 0;
+        if(t[i][j]!=-1) return t[i][j];
+        long long  minn=INT_MAX;
+        for(int k=i;k<=j;k++){
+            long long temp=(cuts[j+1]-cuts[i-1])+solve(i,k-1,n,cuts)+solve(k+1,j,n,cuts);
+            minn=min(minn,temp);
+        }
+        return t[i][j]= minn;
+    }
+    int minCost(int n, vector<int>& cuts) {
+        memset(t,-1,sizeof(t));
+        cuts.push_back(0);
+        cuts.push_back(n);
+        sort(cuts.begin(),cuts.end());
+        return solve(1,cuts.size()-2,n,cuts);
+    }
+};

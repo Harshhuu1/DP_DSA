@@ -1,0 +1,44 @@
+class Solution {
+  public:
+  
+    // int solve(vector<int>& arr,int cost, int n){
+    //     if(n==arr.size()-1) return cost;
+    //     int one=INT_MAX;
+    //     if(n+1<arr.size()){
+    //         one=abs(arr[n+1]-arr[n])+solve(arr,cost,n+1);
+            
+    //     }
+    //     int two=INT_MAX;
+    //     if(n+2<arr.size()){
+    //         two=abs(arr[n+2]-arr[n])+solve(arr,cost,n+2);
+    //     }
+    //     return t[n]=min(one,two);
+
+        
+        
+    // }
+    int minCost(vector<int>& height) {
+        // Code here
+        int prev1=0;
+        int prev2=0;
+        
+        int n=height.size();
+        vector<int> t(n,0);
+        
+        int left=INT_MAX;
+        for(int i=1;i<height.size();i++){
+            left=abs(height[i]-height[i-1])+prev1;
+             int  right=INT_MAX;
+            if(i>1){
+                right=abs(height[i]-height[i-2])+prev2;
+            }
+            int curr=min(right,left);
+            prev2=prev1;
+            prev1=curr;
+            
+        }
+        return prev1;
+    
+    }
+};
+

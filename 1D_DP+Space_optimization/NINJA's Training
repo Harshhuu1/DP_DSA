@@ -1,0 +1,68 @@
+
+int solve(int day, int last,vector<vector<int>> &points,vector<vector<int>> &dp)
+{
+
+    if(day==0){
+        int maxi=0;
+        for(int task=0;task<3;task++){
+            if(task!=last) 
+            maxi=max(maxi,points[0][task]);
+        }
+        return maxi;
+    }
+    if(dp[day][last]!=-1)
+    return dp[day][last];
+    int maxi=0;
+    for(int k=0;k<3;k++){
+        if(k!=last){
+            int curr=points[day][k]+solve(day-1,k,points,dp);
+            maxi=max(maxi,curr);
+        }
+    }
+    return dp[day][last]= maxi;
+    
+}
+
+
+int ninjaTraining(int n, vector<vector<int>> &points)
+{   
+    vector<vector<int>> dp(n,vector<int>(4,-1));
+    
+    for(int i=0;i<4;i++){
+        for(int j=0;j<3;j++){
+            int maxi=0;
+            if(i!=j)
+            maxi=max(maxi,points[0][j]);
+        }
+        dp[0][i]=maxi;
+    }
+    for(int i=1;i<3;i++){
+        int maxi=0;
+        for(int last=0;last<4;last++){
+            for(int task=0;task<3;task++){
+                if(task!=last){
+                    int point=points[i][task]+dp[i-1,task];
+                    maxi=max(maxi,point);
+                }
+            }
+            dp[i][last]=maxi;
+        }
+
+    }
+    return dp[n-1][3];
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

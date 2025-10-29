@@ -1,0 +1,42 @@
+All Ways to do it 
+class Solution {
+public:
+    // Recursion
+    // int solve(int index,vector<int>& nums){
+    //     int n=nums.size();
+    //     if(index>=n) return 0;
+    //     if(index==n-1) return nums[index];
+    //     return max(solve(index+1,nums),nums[index]+solve(index+2,nums));
+    // }
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        //tabulation
+        // vector<int> dp(n,0);
+        // dp[0]=nums[0];
+        // int neg=0;
+        // for(int i=1;i<n;i++){
+        //     int take=nums[i];
+        //     if(i>1) take+=dp[i-2];
+        //     int nottake=dp[i-1];
+        //     dp[i]=max(take,nottake);
+        // }
+        // return dp[n-1];
+        // space-optimized
+        
+        int prev=nums[0];
+        int prev1=0;
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i>0)take+=prev1;
+            int nottake=prev;
+            int curr=max(take,nottake);
+            prev1=prev;
+            prev=curr;
+
+
+        }
+        return prev;
+
+
+    }   
+};

@@ -1,0 +1,21 @@
+#include <bits/stdc++.h> 
+int mod=1000000007;
+int  solve(int nStairs,vector<int> & dp){
+    if(nStairs==1 || nStairs==0) return 1;
+    if(dp[nStairs]!=-1) return dp[nStairs];
+    return dp[nStairs]= (solve(nStairs-1,dp)+solve(nStairs-2,dp))%mod;
+}
+int countDistinctWays(int nStairs) {
+    //  Write your code here.
+    if(nStairs==1) return 1l;
+    if(nStairs==0) return 1;
+    int prev=1;
+    int prev1=1;
+    for(int i=0;i<nStairs;i++){
+        int curr=(prev+prev1)%mod;
+        prev1=prev;
+        prev=curr;
+        
+    }
+    return prev1;
+}

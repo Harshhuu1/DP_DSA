@@ -1,39 +1,53 @@
 class Solution {
 public:
-    int t[1005][10005]; // max sum ~ 10^5 for safe
-
-    // bool helper(vector<int>& nums, int n, int sum){
-    //       if(sum==0) return true;
-    //       if(t[n][sum]!=-1)
-    //       return t[n][sum];
-    //       if(nums[n-1]<=sum){
-    //         return t[n][sum]=(helper(nums,n-1,sum-nums[n-1])||
-    //                             helper(nums,n-1,sum));
-
-    //       }
-    //       else 
-    //       return t[n][sum]=helper(nums,n-1,sum);
+    // int t[1005][10005]; // max sum ~ 10^5 for safe
+    // bool helper(int n, int target,vector<int>& nums){
+    //     if(target==0) return true;
+    //     if(n<=0) return false;
+    //     if(t[n][target]!=-1) return t[n][target];
+    //     if(nums[n-1]<=target){
+    //         return t[n][target]=helper(n-1,target-nums[n-1],nums) || helper(n-1,target,nums);
+    //     }
+    //     else
+    //     return t[n][target]= helper(n-1,target,nums);
     // }
+  
     bool canPartition(vector<int>& nums) {
-       int total=accumulate(nums.begin(),nums.end(),0);
-       int n=nums.size();
-       if(total%2!=0) return false;
-       int target=total/2;
-       for(int i=0;i<n+1;i++){
-        for(int j=0;j<target+1;j++){
-            if(j==0) t[i][j]=true;
-            else if(i==0) t[i][j]=false;
+        // memset(t,-1,sizeof(t));
+        int sum=0;
+        for(auto x:nums){
+            sum+=x;
         }
-       }
-       for(int i=1;i<n+1;i++){
-        for(int j=1;j<target+1;j++){
-            if(nums[i-1]<=j)
-            t[i][j]=(t[i-1][j-nums[i-1]]||t[i-1][j]);
-        
-        else
-        t[i][j]=t[i-1][j];
-       }
-       }
-       return t[n][target];
-    }
-};
+        if(sum%2!=0){
+            return false;
+
+        }
+        int n=nums.size();
+        int target=sum/2;
+//         // return helper(nums.size()-1,target,nums);
+//         vector<int> curr(target+1,false);
+//         curr[0]=true;
+//         for(int i=0;i<n+1;i++){
+//             for(int j=0;j<target+1;j++){
+//                 if(j==0)  t[i][j]=true;
+//                 else if(i==0) t[i][j]=false;
+                
+//                             }
+//         }
+//         for(int i = 0; i < n; i++){
+//     for(int j = target; j >= nums[i]; j--){
+//         curr[j] = curr[j] || curr[j - nums[i]];
+//     }
+// }
+
+//         return curr[target];
+        bitset<10001> bit(1);
+        for(auto i:nums){
+            bit|=bit<<i;
+            if(bit[target]) return true;
+        }
+         
+        return false;
+
+
+}};

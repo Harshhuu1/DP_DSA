@@ -1,0 +1,80 @@
+class Solution {
+public: 
+    int t[2505][2505];
+    int solve(int n, int curr,vector<int>& nums, int prev){
+        if(curr==n) return 0;
+        int take=0;
+        int notTake=0;
+        if(t[curr][prev+1]!=-1) return t[curr][prev+1];
+        if( prev==-1|| nums[curr]>nums[prev]){
+           take= 1+solve(n,curr+1,nums,curr);
+        }
+           
+            notTake= solve(n, curr+1, nums, prev);
+            return t[curr][prev+1]=max(take,notTake);
+    }
+
+    int tab(vector<int>& nums){
+        int n=nums.size();
+        memset(t,0,sizeof(t));
+        for(int i=n-1;i>=0;i--){
+            for(int j=i-1;j>=-1;j--){
+                int take=0,nottake=0;
+                if( j==-1 || nums[i]>nums[j] ){
+                    take=1+t[i+1][i+1];
+                }
+                    nottake=t[i+1][j+1];
+                    t[i][j+1]=max(take,nottake);
+            }
+        }
+
+        return t[0][0];
+        
+           }
+        int space(vector<int>& nums){
+            vector<int> nextRow(nums.size()+1,0), currRow(nums.size()+1,0);
+            int n=nums.size();
+            for(int i=n-1;i>=0;i--){
+                // fill(currRow.begin(), currRow.end(), 0);
+                for(int j=i-1;j>=-1;j--){
+                    int take=0;
+                    int nottake=0;
+                    if( j==-1||nums[j]<nums[i]){
+                        take=1+nextRow[i+1];
+                    }
+                    nottake=nextRow[j+1];
+                    currRow[j+1]=max(take,nottake);
+
+                }
+                nextRow=currRow;
+            }
+            
+            return nextRow[0];}
+
+    int Optimal(vector<int>& nums){
+        vector<int> ans;
+        ans.push_back(nums[0]);
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]>ans.back()){
+                ans.push_back(nums[i]);
+            }
+            else{
+                int index=lower_bound(ans.begin(),ans.end(),nums[i])-ans.begin();
+                ans[index]=nums[i];
+            }
+            
+        }
+        return ans.size();
+    }
+
+
+
+
+    int lengthOfLIS(vector<int>& nums) {
+        memset(t,-1,sizeof(t));
+        // return solve(nums.size(),0,nums,-1);
+        // return tab(nums);
+        // return space(nums);
+        return Optimal(nums);
+    }
+};
